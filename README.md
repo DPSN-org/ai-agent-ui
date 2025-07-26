@@ -1,73 +1,93 @@
-# Welcome to your Lovable project
+# AI Agent Chat Interface
 
-## Project info
+A modern, responsive chat interface for AI agents with session management and persistent chat history.
 
-**URL**: https://lovable.dev/projects/ca7fb73a-3d14-4be7-a138-8caace3f0120
+## Features
 
-## How can I edit this code?
+- 💬 Real-time chat interface
+- 📂 Session management
+- 💾 Persistent chat history
+- 🎨 Clean, modern UI with dark/light mode
+- ⚡ Built with Vite for fast development
 
-There are several ways of editing your application.
+## Getting Started
 
-**Use Lovable**
+### Prerequisites
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/ca7fb73a-3d14-4be7-a138-8caace3f0120) and start prompting.
+- Node.js (v16 or later)
+- npm or yarn
 
-Changes made via Lovable will be committed automatically to this repo.
+### Installation
 
-**Use your preferred IDE**
+1. Clone the repository:
+   ```sh
+   git clone <YOUR_GIT_URL>
+   cd session-chat-buddy-main
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+3. Start the development server:
+   ```sh
+   npm run dev
+   ```
 
-Follow these steps:
+4. Open [http://localhost:5173](http://localhost:5173) in your browser
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Technologies Used
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- ⚡ Vite - Next Generation Frontend Tooling
+- ⚛️ React 18 - A JavaScript library for building user interfaces
+- 📝 TypeScript - Type-safe JavaScript
+- 🎨 shadcn/ui - Beautifully designed components
+- 🎨 Tailwind CSS - A utility-first CSS framework
+- 🔄 React Query - For data fetching and state management
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Project Structure
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+src/
+  ├── components/    # Reusable UI components
+  ├── hooks/        # Custom React hooks
+  ├── lib/          # Utility functions
+  └── pages/        # Page components
 ```
 
-**Edit a file directly in GitHub**
+## Deployment
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Building for Production
 
-**Use GitHub Codespaces**
+```sh
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+This will create a `dist` directory with the production build.
 
-## What technologies are used for this project?
+### Deploying to Vercel
 
-This project is built with:
+1. Install Vercel CLI:
+   ```sh
+   npm install -g vercel
+   ```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+2. Deploy:
+   ```sh
+   vercel
+   ```
 
-## How can I deploy this project?
+## Contributing
 
-Simply open [Lovable](https://lovable.dev/projects/ca7fb73a-3d14-4be7-a138-8caace3f0120) and click on Share -> Publish.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Can I connect a custom domain to my Lovable project?
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Yes, you can!
+## License
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Distributed under the MIT License. See `LICENSE` for more information.
