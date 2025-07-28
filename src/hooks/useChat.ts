@@ -288,8 +288,9 @@ export const useChat = () => {
     setIsLoading(true);
 
     try {
-      // Mock API call - replace with actual API endpoint
-      const response = await fetch('http://localhost:8001/query', {
+      // Use environment variable for API base URL
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8001';
+      const response = await fetch(`${apiBaseUrl}/query`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
