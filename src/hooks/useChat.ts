@@ -289,14 +289,14 @@ export const useChat = () => {
 
     try {
       // Mock API call - replace with actual API endpoint
-      const response = await fetch('/api/ask', {
+      const response = await fetch('http://localhost:8001/query', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: content,
-          sessionId: currentSessionId
+          query: content,
+          session_id: currentSessionId
         })
       });
 
