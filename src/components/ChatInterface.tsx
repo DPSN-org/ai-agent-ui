@@ -41,7 +41,7 @@ export const ChatInterface = () => {
             {messages.length === 0 ? (
               <div className="flex items-center justify-center h-full text-center">
                 <div>
-                  <h2 className="text-2xl font-semibold mb-2">Welcome to Session Chat</h2>
+                  <h2 className="text-2xl font-semibold mb-2">Welcome to DeepSense by DPSN</h2>
                   <p className="text-muted-foreground">Start a conversation to begin your chat session.</p>
                 </div>
               </div>

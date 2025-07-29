@@ -22,6 +22,7 @@ Here's a **markdown response** to demonstrate the formatting:
 - This is a *mock response*
 - It supports **bold text**
 - And even \`code snippets\`
+- Check out this [example link](https://example.com) to see how links look
 
 ### Code Example:
 \`\`\`javascript
@@ -29,30 +30,31 @@ const response = "This is a mock AI response";
 console.log(response);
 \`\`\`
 
-> This is a blockquote to show different formatting options.
+> This is a blockquote to show different formatting options. You can also include [links in blockquotes](https://example.org).
 
-Would you like to continue our conversation?`,
+Would you like to [continue our conversation](#)?`,
     
     `## Great question!
 
 Your message "${userMessage}" is interesting. Let me provide a detailed response:
 
 ### Analysis:
-1. **First point**: This demonstrates numbered lists
-2. **Second point**: With proper formatting
+1. **First point**: This demonstrates numbered lists with [a link](https://github.com/)
+2. **Second point**: With proper formatting and [another example](https://reactjs.org/)
 3. **Third point**: And clear structure
 
 **Benefits:**
 - Clean markdown rendering
-- Proper typography
+- Proper typography with [styled links](https://tailwindcss.com/)
 - Code syntax highlighting
 
 \`\`\`python
 def mock_response(user_input):
+    # Check out [Python's website](https://www.python.org/) for more info
     return f"Processing: {user_input}"
 \`\`\`
 
-What would you like to explore next?`,
+What would you like to explore next? Try visiting [MDN Web Docs](https://developer.mozilla.org/) for web development resources.`,
 
     `# Hello there! 👋
 
@@ -61,21 +63,21 @@ Thanks for your message: *"${userMessage}"*
 ## Here's what I can help with:
 
 ### **Available Features:**
-- ✅ Markdown formatting
-- ✅ Code highlighting  
+- ✅ [Markdown formatting](https://www.markdownguide.org/)
+- ✅ Code highlighting with [Prism](https://prismjs.com/)  
 - ✅ Lists and tables
-- ✅ Links and images
+- ✅ [Styled links](https://example.com) and images
 
 ### **Example Table:**
 | Feature | Status | Description |
 |---------|--------|-------------|
-| Chat | ✅ Active | Real-time messaging |
-| Sessions | ✅ Active | Persistent conversations |
-| Markdown | ✅ Active | Rich text formatting |
+| Chat | ✅ Active | [Real-time messaging](https://en.wikipedia.org/wiki/Instant_messaging) |
+| Sessions | ✅ Active | [Persistent conversations](https://en.wikipedia.org/wiki/Conversation) |
+| Markdown | ✅ Active | [Rich text formatting](https://en.wikipedia.org/wiki/Rich_Text_Format) |
 
-> **Note:** This is a mock response to demonstrate the chat interface capabilities.
+> **Note:** This is a mock response to demonstrate the chat interface capabilities. Check out [React Markdown](https://github.com/remarkjs/react-markdown) for more info.
 
-How can I assist you further?`
+How can I assist you further? [Click here](#) to see more examples.`
   ];
   
   return responses[Math.floor(Math.random() * responses.length)];
