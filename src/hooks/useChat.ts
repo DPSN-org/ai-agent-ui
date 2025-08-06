@@ -4,15 +4,83 @@ import { Message } from '@/components/ChatMessage';
 import { ChatSession } from '@/components/ChatSidebar';
 import { useToast } from '@/hooks/use-toast';
 
+interface TokenInfo {
+  id: string;
+  name: string;
+  symbol: string;
+  icon: string;
+  decimals: number;
+}
+
+interface SwapData {
+  inputMint: string;
+  outputMint: string;
+  inAmount: string;
+  outAmount: string;
+  slippageBps: number;
+  input_token_info: TokenInfo;
+  output_token_info: TokenInfo;
+}
+
+interface AIResponse {
+  content: string;
+  user_actions?: Array<{
+    action: string;
+    json_data: SwapData;
+  }>;
+}
+
 const STORAGE_KEYS = {
   SESSION_ID: 'sessionId',
   SESSION_MESSAGES: 'sessionMessages',
   PREVIOUS_SESSIONS: 'previousSessions'
 };
 
-const getMockAIResponse = (userMessage: string): string => {
+const getMockAIResponse = (userMessage: string): AIResponse => {
+  // Check if user is asking about swapping tokens
+  const lowerMessage = userMessage.toLowerCase();
+  
+  if (lowerMessage.includes('swap') || lowerMessage.includes('exchange') || lowerMessage.includes('trade')) {
+    return {
+      content: `# Token Swap Suggestion 💱
+
+I see you're interested in swapping tokens! Here's a suggested swap:
+
+- **From**: 1 SOL
+- **To**: ~100 USDC
+- **Rate**: 1 SOL ≈ 100 USDC
+
+You can review and execute this swap using the widget below. Make sure you have enough SOL in your connected wallet.`,
+      user_actions: [{
+        action: 'get_quote',
+        json_data: {
+          inputMint: 'So11111111111111111111111111111111111111112', // SOL mint address
+          outputMint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', // USDC mint address
+          inAmount: '1000000000', // 1 SOL in lamports
+          outAmount: '100000000', // ~100 USDC (6 decimals)
+          slippageBps: 50, // 0.5% slippage
+          input_token_info: {
+            id: 'So11111111111111111111111111111111111111112',
+            name: 'Wrapped SOL',
+            symbol: 'SOL',
+            icon: 'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
+            decimals: 9
+          },
+          output_token_info: {
+            id: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+            name: 'USD Coin',
+            symbol: 'USDC',
+            icon: 'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png',
+            decimals: 6
+          }
+        }
+      }]
+    };
+  }
+
   const responses = [
-    `# Thank you for your message!
+    {
+      content: `# Thank you for your message!
 
 I understand you said: "${userMessage}"
 
@@ -32,9 +100,10 @@ console.log(response);
 
 > This is a blockquote to show different formatting options. You can also include [links in blockquotes](https://example.org).
 
-Would you like to [continue our conversation](#)?`,
-    
-    `## Great question!
+Would you like to [continue our conversation](#)?`
+    },
+    {
+      content: `## Great question!
 
 Your message "${userMessage}" is interesting. Let me provide a detailed response:
 
@@ -54,9 +123,10 @@ def mock_response(user_input):
     return f"Processing: {user_input}"
 \`\`\`
 
-What would you like to explore next? Try visiting [MDN Web Docs](https://developer.mozilla.org/) for web development resources.`,
-
-    `# Hello there! 👋
+What would you like to explore next? Try visiting [MDN Web Docs](https://developer.mozilla.org/) for web development resources.`
+    },
+    {
+      content: `# Hello there! 👋
 
 Thanks for your message: *"${userMessage}"*
 
@@ -78,6 +148,7 @@ Thanks for your message: *"${userMessage}"*
 > **Note:** This is a mock response to demonstrate the chat interface capabilities. Check out [React Markdown](https://github.com/remarkjs/react-markdown) for more info.
 
 How can I assist you further? [Click here](#) to see more examples.`
+    }
   ];
   
   return responses[Math.floor(Math.random() * responses.length)];
@@ -302,27 +373,34 @@ export const useChat = () => {
         })
       });
 
-      let aiResponseContent: string;
+      let aiMessage: Message;
       
       if (response.ok) {
         const data = await response.json();
-        aiResponseContent = data.response || data.message || 'Sorry, I received an empty response.';
+        const aiResponse = getMockAIResponse(content);
+        aiMessage = {
+          id: uuidv4(),
+          content: data.response || data.message || 'Sorry, I received an empty response.',
+          role: 'assistant',
+          timestamp: Date.now(),
+          ...(aiResponse.user_actions && { user_actions: aiResponse.user_actions })
+        };
       } else {
         // Fallback to mock response if API fails
-        aiResponseContent = getMockAIResponse(content);
+        const aiResponse = getMockAIResponse(content);
         toast({
           title: "Using Mock Response",
           description: "API endpoint not available, using mock response instead.",
           variant: "default"
         });
+        aiMessage = {
+          id: uuidv4(),
+          content: aiResponse.content,
+          role: 'assistant',
+          timestamp: Date.now(),
+          ...(aiResponse.user_actions && { user_actions: aiResponse.user_actions })
+        };
       }
-
-      const aiMessage: Message = {
-        id: uuidv4(),
-        content: aiResponseContent,
-        role: 'assistant',
-        timestamp: Date.now()
-      };
 
       const finalMessages = [...updatedMessages, aiMessage];
       setMessages(finalMessages);
@@ -332,11 +410,13 @@ export const useChat = () => {
       console.error('Error sending message:', error);
       
       // Fallback to mock response on error
+      const errorResponse = getMockAIResponse(content);
       const aiMessage: Message = {
         id: uuidv4(),
-        content: getMockAIResponse(content),
+        content: errorResponse.content,
         role: 'assistant',
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        ...(errorResponse.user_actions && { user_actions: errorResponse.user_actions })
       };
 
       const finalMessages = [...updatedMessages, aiMessage];
