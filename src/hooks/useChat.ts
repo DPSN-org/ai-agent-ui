@@ -361,15 +361,17 @@ export const useChat = () => {
     setIsLoading(true);
 
     try {
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8001';
+
       // Mock API call - replace with actual API endpoint
-      const response = await fetch('/api/ask', {
+      const response = await fetch(`${apiBaseUrl}/query`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: content,
-          sessionId: currentSessionId
+          query: content,
+          session_id: currentSessionId
         })
       });
 
@@ -377,13 +379,13 @@ export const useChat = () => {
       
       if (response.ok) {
         const data = await response.json();
-        const aiResponse = getMockAIResponse(content);
+        // const aiResponse = getMockAIResponse(content);
         aiMessage = {
           id: uuidv4(),
           content: data.response || data.message || 'Sorry, I received an empty response.',
           role: 'assistant',
           timestamp: Date.now(),
-          ...(aiResponse.user_actions && { user_actions: aiResponse.user_actions })
+          ...(data.user_actions && { user_actions: data.user_actions })
         };
       } else {
         // Fallback to mock response if API fails
