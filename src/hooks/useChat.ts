@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Message } from '@/components/ChatMessage';
 import { ChatSession } from '@/components/ChatSidebar';
 import { useToast } from '@/hooks/use-toast';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 interface TokenInfo {
   id: string;
@@ -160,6 +161,7 @@ export const useChat = () => {
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { publicKey } = useWallet();
 
   // Save session before page unload
   useEffect(() => {
@@ -363,7 +365,12 @@ export const useChat = () => {
     try {
       const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8001';
 
-
+      const remarks: string[] = [];
+      
+      // Add wallet address to remarks if wallet is connected
+      if (publicKey) {
+        remarks.push(`my solana wallet address is ${publicKey.toString()}`);
+      }
 
       const response = await fetch(`${apiBaseUrl}/query`, {
         method: 'POST',
@@ -372,7 +379,8 @@ export const useChat = () => {
         },
         body: JSON.stringify({
           query: content,
-          session_id: currentSessionId
+          session_id: currentSessionId,
+          remarks
         })
       });
 
