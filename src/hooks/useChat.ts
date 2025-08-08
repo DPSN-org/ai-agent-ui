@@ -380,7 +380,7 @@ export const useChat = () => {
         body: JSON.stringify({
           query: content,
           session_id: currentSessionId,
-          remarks
+          remarks:remarks,
         })
       });
 
